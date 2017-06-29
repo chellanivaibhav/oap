@@ -8,7 +8,6 @@
 		
 		public function validateuser($email)
 		{
-			echo "hey";
     		$this->db->select('*');
 			$this->db->from('users');
 			$this->db->where('email',$email);
@@ -23,6 +22,23 @@
 
 				return false;
 
+			}
+		}
+		public function checkusername($username)
+		{
+			echo "inside checkusername";
+			$this->db->select('*');
+			$this->db->from('users');
+			$this->db->where('username',$username);
+			$q=$this->db->get();
+			
+			if($q->num_rows())
+			{	
+				return false;
+			}
+			else
+			{	
+				return true;
 			}
 		}
 

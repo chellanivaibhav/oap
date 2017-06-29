@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'daphnislabs.cqjlqjj8grxi.us-west-2.rds.amazonaws.com:3306',
+	'hostname' => 'daphnislabs.cqjlqjj8grxi.us-west-2.rds.amazonaws.com',
 	'username' => 'daphnislabs',
 	'password' => 'daphnislabs',
 	'database' => 'OAP',

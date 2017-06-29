@@ -4,9 +4,44 @@
 	*/
 	class Auth extends CI_Controller
 	{
-		public function index()
+		public function signup()
 		{
-			echo "it run";
+			
+			//check if username exists
+			$username=$_REQUEST['username'];
+			echo $username;
+			$checkUsername=$this->User_model->checkusername($username);
+			echo $checkUsername;
+			if($checkUsername==false)
+			{	
+				echo "inside if";
+				$response['status']=false;
+				$response['message']='Username already exists';
+			}
+			else
+			{	
+				echo "inside else";
+				$email=$_REQUEST['email'];
+				$password=$_REQUEST['password'];
+				$phoneno=$_REQUEST['phoneno'];
+				$userimg='';
+				$created_date = date("Y-m-d H:i:s");
+				
+				$sql="INSERT INTO users VALUES (?,?,?,?,?,?,?)";
+				$flag=$this->db->query($sql,array('',$username,$phoneno,$email,$password,$created_date,$userimg));
+				if($flag==true)
+				{
+					$response['status']=true;
+					$response['message']='Successfully Signed Up';
+
+				}
+				else
+				{
+					$response['status']=false;
+					$response['message']='Attempt Unsuccessful';
+				}
+			}
+			echo json_encode($response);
 		}		
 		public function login()
 		{
@@ -22,24 +57,17 @@
 				$password=$_REQUEST['password'];
 				$result=$this->User_model->validateuser($email);
 				if($result == false)
-		{
-			//echo "Please provide correct email";
-			$response['success'] = false;
-			$response['message'] = "Incorrect Password";
-		}
-		else
-		{
-			//foreach ($response as $value) {//get password equivalent to email
-					# code...
+				{
+					$response['success'] = false;
+					$response['message'] = "Email Does Not Exist";
+				}
+				else
+				{
 					if($result->password == $password)
 					{
-						// echo "Successfully logged in";
 						$data = array('name' =>$result->username  );
-						// $this->session->set_userdata($data);
-						// //redirect code goes here
 						$response['success'] = true;
 						$response['message'] = 'Successfully Logged In';
-						//$response['message'] = "Please provide correct email";
 						$response['data'] = $data;
 						
 					}
@@ -48,13 +76,12 @@
 						$response['success'] = false;
 						$response['message'] = "Please provide correct passowrd";
 					}
-				//}	
-		}
-		echo json_encode($response);
+				}
+				echo json_encode($response);
 			}
 
 		}
-
+		
 	}
 
-?>
+	?>
